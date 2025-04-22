@@ -1,0 +1,21 @@
+plugins {
+    id 'application'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("dev.czechitas.java1:kockamyssyr-engine:1.1.5")
+}
+
+application {
+    mainClass = "cz.czechitas.kockamyssyr.HlavniProgram"
+}
