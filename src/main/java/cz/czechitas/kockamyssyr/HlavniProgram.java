@@ -32,7 +32,7 @@ public class HlavniProgram {
      */
     public void run() {
         tom = vytvorKocku();
-        tom.setBrain(new KeyboardBrain(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D));
+        // tom.setBrain(new KeyboardBrain(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D));
 
         jerry = vytvorMys();
         jerry.setBrain(new KeyboardBrain());
@@ -42,7 +42,79 @@ public class HlavniProgram {
     }
 
     public void chytMys() {
-        // TODO: Sem vepište svůj program
+        chytJerryho();
+    }
+
+    public void chytJerryho() {
+        int rozdilX = tom.getX() - jerry.getX(); // vysledek mensi nez 0 = Tom je vlevo; vetsi nez 0 = Tom je vpravo
+        if (rozdilX < 0) {// Tom je vlevo od Jerryho
+            tomKoukaNahoru(); //startovni pozice Toma
+            tom.turnRight();
+            while (jerry.getX() > tom.getX()) {  //dokud je Jerryho souradnice vetsi, Tom se pohybuje
+                vyhniSeStromu();
+                tom.moveForward();
+            }
+        } else if (rozdilX > 0) { //Tom je vpravo od Jerryho
+            tom.turnLeft();
+            tomKoukaNahoru();
+            while (jerry.getX() < tom.getX()) {
+                vyhniSeStromu();
+                tom.moveForward();
+            }
+
+
+        }
+        int rozdilY = tom.getY() - jerry.getY();
+
+        if (rozdilY < 0) { //Tom je vys nez Jerry
+            tomKoukaNahoru();
+            tom.turnRight();
+            tom.turnRight();
+            while (jerry.getY() > tom.getY()) {
+                vyhniSeStromu();
+                tom.moveForward();
+            }
+
+
+        } else if (rozdilY > 0) {  //Tom je niz nez Jerry
+            tomKoukaNahoru();
+            while (jerry.getY() < tom.getY()) {
+                vyhniSeStromu();
+                tom.moveForward();
+
+            }
+
+        }
+
+
+    }
+
+    public void vyhniSeStromu() {
+        if (tom.isPossibleToMoveForward()) {
+            return;
+        } else {
+            tom.turnLeft();
+            tom.moveForward();
+            tom.turnLeft();
+            return;
+        }
+    }
+
+    public void tomKoukaNahoru() {
+        if (tom.getOrientation() == PlayerOrientation.RIGHT) {
+            tom.turnLeft();
+            return;
+        } else if (tom.getOrientation() == PlayerOrientation.LEFT) {
+            tom.turnRight();
+            return;
+        } else if (tom.getOrientation() == PlayerOrientation.UP) {
+            return;
+        } else if (tom.getOrientation() == PlayerOrientation.DOWN) {
+            tom.turnLeft();
+            tom.turnLeft();
+            return;
+        }
+
     }
 
     public void vytvorVeci(int pocetStromu) {
