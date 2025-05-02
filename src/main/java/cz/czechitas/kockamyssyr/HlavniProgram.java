@@ -45,47 +45,48 @@ public class HlavniProgram {
         chytJerryho();
     }
 
-    public void chytJerryho() {
-        int rozdilX = tom.getX() - jerry.getX(); // vysledek mensi nez 0 = Tom je vlevo; vetsi nez 0 = Tom je vpravo
-        if (rozdilX < 0) {// Tom je vlevo od Jerryho
-            tomKoukaNahoru(); //startovni pozice Toma
-            tom.turnRight();
-            while (jerry.getX() > tom.getX()) {  //dokud je Jerryho souradnice vetsi, Tom se pohybuje
-                vyhniSeStromu();
-                tom.moveForward();
-            }
-        } else if (rozdilX > 0) { //Tom je vpravo od mysi
-            tom.turnLeft();
-            tomKoukaNahoru();
-            while (jerry.getX() < tom.getX()) {
-                vyhniSeStromu();
-                tom.moveForward();
+    private void chytJerryho() {
+        while (tom.isAlive()&&jerry.isAlive()) {
+            int rozdilX = tom.getX() - jerry.getX(); // vysledek mensi nez 0 = Tom je vlevo; vetsi nez 0 = Tom je vpravo
+            if (rozdilX < 0) {// Tom je vlevo od Jerryho
+                tomKoukaNahoru(); //startovni pozice Toma
+                tom.turnRight();
+                while (tom.getX() < jerry.getX()) {  //dokud je Jerryho souradnice vetsi, Tom se pohybuje
+                    vyhniSeStromu();
+                    tom.moveForward();
+                }
+            } else if (rozdilX > 0) { //Tom je vpravo od mysi
+                tomKoukaNahoru();
+                tom.turnLeft();
+                while (tom.getX() > jerry.getX()) {
+                    vyhniSeStromu();
+                    tom.moveForward();
+                }
             }
 
 
+            int rozdilY = tom.getY() - jerry.getY();
+
+            if (rozdilY < 0) { //Tom je vys nez Jerry
+                tomKoukaNahoru();
+                tom.turnRight();
+                tom.turnRight();
+                while (tom.getY() < jerry.getY()) {
+                    vyhniSeStromu();
+                    tom.moveForward();
+                }
+
+
+            } else if (rozdilY > 0) {  //Tom je niz nez Jerry
+                tomKoukaNahoru();
+                while (tom.getY() > jerry.getY()) {
+                    vyhniSeStromu();
+                    tom.moveForward();
+
+                }
+
+            }
         }
-        int rozdilY = tom.getY() - jerry.getY();
-
-        if (rozdilY < 0) { //Tom je vys nez Jerry
-            tomKoukaNahoru();
-            tom.turnRight();
-            tom.turnRight();
-            while (jerry.getY() > tom.getY()) {
-                vyhniSeStromu();
-                tom.moveForward();
-            }
-
-
-        } else if (rozdilY > 0) {  //Tom je niz nez Jerry
-            tomKoukaNahoru();
-            while (jerry.getY() < tom.getY()) {
-                vyhniSeStromu();
-                tom.moveForward();
-
-            }
-
-        }
-
 
     }
 
@@ -93,10 +94,11 @@ public class HlavniProgram {
         if (tom.isPossibleToMoveForward()) {
             return;
         } else {
-            tom.turnLeft();
+            tom.turnRight();
             tom.moveForward();
             tom.turnLeft();
             return;
+
         }
     }
 
@@ -104,9 +106,11 @@ public class HlavniProgram {
         if (tom.getOrientation() == PlayerOrientation.RIGHT) {
             tom.turnLeft();
             return;
+
         } else if (tom.getOrientation() == PlayerOrientation.LEFT) {
             tom.turnRight();
             return;
+
         } else if (tom.getOrientation() == PlayerOrientation.UP) {
             return;
         } else if (tom.getOrientation() == PlayerOrientation.DOWN) {
