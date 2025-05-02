@@ -54,7 +54,7 @@ public class HlavniProgram {
                 vyhniSeStromu();
                 tom.moveForward();
             }
-        } else if (rozdilX > 0) { //Tom je vpravo od Jerryho
+        } else if (rozdilX > 0) { //Tom je vpravo od mysi
             tom.turnLeft();
             tomKoukaNahoru();
             while (jerry.getX() < tom.getX()) {
